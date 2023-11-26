@@ -24,7 +24,7 @@ public class HomePage {
     }
 
     @GetMapping("/{id}")
-    public Part findById(@PathVariable Long id) {
+    public Part findById(@PathVariable long id) {
         return partService.findById(id);
     }
 

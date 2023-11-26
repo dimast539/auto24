@@ -1,19 +1,22 @@
 package ru.vostrestsov.avto24.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "parts")
+@Table(name = "spare_parts")
 public class Part {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "spare_parts_id")
     private long id;
 
     @Column(name = "part_name")
@@ -23,4 +26,23 @@ public class Part {
     private String vendorCode;
 
 
+    @ManyToOne
+    @JoinColumn(name = "customerId", referencedColumnName = "id")
+    @JsonBackReference
+
+    private Customer customer;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Part part = (Part) o;
+        return id == part.id && Objects.equals(name, part.name) && Objects.equals(vendorCode, part.vendorCode) && Objects.equals(customer, part.customer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, vendorCode, customer);
+    }
 }

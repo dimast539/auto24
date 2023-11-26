@@ -8,9 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface PartRepository extends JpaRepository<Part, Long> {
-
-
-
    Optional<Part> findPartByName(String name);
    Optional<Part> findPartByVendorCode(String vendorCode);
 }
